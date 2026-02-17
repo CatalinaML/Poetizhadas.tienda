@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { Producto } from '@/types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,16 +45,22 @@ export default function Tienda() {
         <div className="absolute inset-0 bg-gradient-to-b from-pink-50 to-[#fff1f2] opacity-60" />
         <div className="absolute top-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] opacity-20" />
 
-        <div className="relative z-10 text-center px-6 max-w-4xl space-y-8">
+        <div className="relative z-10 text-center px-6 max-w-4xl space-y-6 flex flex-col items-center">
           <div className="flex justify-center items-center gap-3 mb-2 animate-bounce">
             <Sparkles className="text-pink-400 w-5 h-5" />
             <span className="text-[10px] uppercase tracking-[0.5em] text-pink-400 font-black">Arte hecho a mano</span>
             <Sparkles className="text-pink-400 w-5 h-5" />
           </div>
 
-          <h1 className="text-7xl md:text-9xl font-serif font-bold text-pink-900 leading-tight tracking-tighter">
-            Poetizhadas
-          </h1>
+          {/* LOGO EN EL HERO */}
+          <Image
+            src="/logo.png"
+            alt="Poetizhadas Logo"
+            width={300}
+            height={150}
+            priority
+            className="drop-shadow-2xl mb-4"
+          />
 
           <p className="text-xl md:text-2xl font-serif italic text-pink-700 leading-relaxed max-w-2xl mx-auto">
             "Transformamos suspiros en objetos, y momentos en poesía tangible."
@@ -74,13 +81,38 @@ export default function Tienda() {
         </button>
       </section>
 
-      {/* --- NAVBAR --- */}
-      <nav className="h-24 bg-white/70 backdrop-blur-xl border-b border-pink-100 sticky top-0 z-50 flex items-center shadow-sm">
+      {/* --- NAVBAR REFINADA (Logo más pequeño) --- */}
+      <nav className="h-20 bg-white/80 backdrop-blur-md border-b border-pink-100 sticky top-0 z-50 flex items-center shadow-sm">
         <div className="container mx-auto px-8 flex justify-between items-center">
-          <div className="cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <h1 className="text-2xl font-serif font-bold text-pink-600">POETIZHADAS</h1>
+
+          {/* Lado Izquierdo: Logo Ajustado */}
+          <div
+            className="cursor-pointer flex items-center"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            <div className="relative w-32 h-12"> {/* Contenedor pequeño y controlado */}
+              <Image
+                src="/logo.png"
+                alt="Poetizhadas"
+                fill // Ocupa el espacio del contenedor
+                className="object-contain object-left transform hover:scale-105 transition-transform duration-300"
+                priority
+              />
+            </div>
           </div>
-          <Carrito />
+
+          {/* Centro: Enlaces con tipografía más fina */}
+          <div className="hidden md:flex items-center gap-8">
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-[9px] font-bold uppercase tracking-[0.3em] text-pink-900/60 hover:text-pink-500 transition-colors">Inicio</button>
+            <button onClick={scrollToProducts} className="text-[9px] font-bold uppercase tracking-[0.3em] text-pink-900/60 hover:text-pink-500 transition-colors">Colección</button>
+            <a href="https://instagram.com/poetizhadas_tienda" target="_blank" className="text-[9px] font-bold uppercase tracking-[0.3em] text-pink-900/60 hover:text-pink-500 transition-colors">Instagram</a>
+          </div>
+
+          {/* Lado Derecho: Carrito */}
+          <div className="flex items-center">
+            <Carrito />
+          </div>
+
         </div>
       </nav>
 
